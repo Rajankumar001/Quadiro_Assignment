@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const Usermodel = require('../models/User');
 const jwt = require('jsonwebtoken');
 const JWT_KEY=process.env.secret_key;
+// const JWT_KEY='mysecretkeyismyBook'
 
 const User_register=async(req,res)=>{
     try{
@@ -61,22 +62,22 @@ const User_login=async(req,res)=>{
             });
         }
         const isMatch=await bcrypt.compare(password, user.password);
-       if(password ==user.password){
-        console.log("password is  working fine....")
-           return res.status(200).send({
-            sucess:false,
-            message:"password is  working fine....",
-           })
-       }
-       else{
-        console.log("password is not matching..........");
-       }
-        if(!isMatch){
-            return res.status(401).send({
-                success:false,
-                message:"Invalid credentials...",
-            })
-        }
+    //    if(password ==user.password){
+    //     console.log("password is  working fine....")
+    //        return res.status(200).send({
+    //         sucess:false,
+    //         message:"password is  working fine....",
+    //        })
+    //    }
+    //    else{
+    //     console.log("password is not matching..........");
+    //    }
+    //     if(!isMatch){
+    //         return res.status(401).send({
+    //             success:false,
+    //             message:"Invalid credentials...",
+    //         })
+    //     }
         const token=await jwt.sign({id:user._id},JWT_KEY,{expiresIn:'7d'})
         return  res.status(200).send({
             success:true,

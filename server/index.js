@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const connection=require('./config/connection')
-const authRoutes=require('./routes/auth')
+const authRoutes=require('./routes/auth');
+const itemRoutes=require('./routes/Admin_user')
 const app = express();
 
 // Middleware
@@ -14,7 +15,7 @@ app.get('/',(req,res)=>{
 // Routes
 // const itemRoutes = require('./routes/item');
 app.use('/api/auth', authRoutes);
-// app.use('/api/items', itemRoutes);
+ app.use('/api/admin', itemRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
