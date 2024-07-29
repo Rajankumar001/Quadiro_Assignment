@@ -8,10 +8,9 @@ const ItemSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    comments: [{
-         user: String,
-          text: String
-         }]
+    comments: {
+        type:String,
+         }
 });
 
 module.exports = mongoose.model('Item', ItemSchema);

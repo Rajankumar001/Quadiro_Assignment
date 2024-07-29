@@ -33,6 +33,25 @@ const DeleteItem=async(req,res)=>{
     }
 
 }
+// user_section
+const getAllItem=async(req,res)=>{
+  try {
+    const items = await Item.find({});
+    res.json(items);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' });
+  }
+}
+const comment=async(req,res)=>{
+  const { comments } = req.body;
+  try {
+    const item = await Item.findByIdAndUpdate(req.params.id,{comments},{new:true});
+    await item.save();
+    res.json(item);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error' });
+  }
+}
 module.exports={
-    AddItem,UpdateItem,DeleteItem
+    AddItem,UpdateItem,DeleteItem,getAllItem,comment
 }
