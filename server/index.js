@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const connection=require('./config/connection')
+const authRoutes=require('./routes/auth')
 const app = express();
 
 // Middleware
@@ -11,9 +12,8 @@ app.get('/',(req,res)=>{
 
 
 // Routes
-// const authRoutes = require('./routes/auth');
 // const itemRoutes = require('./routes/item');
-// app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 // app.use('/api/items', itemRoutes);
 
 // Start the server

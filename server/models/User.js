@@ -3,7 +3,14 @@ const UserSchema = new mongoose.Schema({
   username: { 
     type: String, 
     required: true,
-     unique: true },
+     unique: true 
+    },
+    email:{
+type:String,
+required:true,
+unique:true,
+    },
+
   password: { 
     type: String, 
     required: true 
@@ -13,5 +20,17 @@ const UserSchema = new mongoose.Schema({
     default: 'user'
  } // 'admin' or 'user'
 });
+UserSchema.pre("save",async function(next){
+  if(this.isModified('password')){
+      try{
+      this.Password= await bcrypt.hash(this.password,10);    
+  }
+  catch(e){
+       console.log("error hashing password",e);
+  }
+}
+  next();
+})
+
 
 module.exports = mongoose.model('User', UserSchema);
