@@ -1,8 +1,16 @@
-import React from 'react'
+import React,{useState,useEffect}from 'react'
 import {Navbar,Nav,Container} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 const Navbarpage = () => {
+  const [userRole, setUserRole] = useState("");
+
+  useEffect(() => {
+    const storedUserRole = localStorage.getItem('userRole');
+    if (storedUserRole) {
+      setUserRole(storedUserRole);
+    }
+  }, []);
   return (
     <>
       <Navbar bg='dark' variant='dark' expand='lg' >
@@ -12,7 +20,7 @@ const Navbarpage = () => {
       MotorsCars
         </h6>
         <Nav className='ms-auto'>
-        <LinkContainer to='/'>
+        <LinkContainer to={userRole === 'admin' ? '/admin' : '/user'}>
             <Nav.Link>
                 Home
             </Nav.Link>

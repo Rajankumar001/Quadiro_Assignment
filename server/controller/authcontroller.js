@@ -8,30 +8,28 @@ const User_register=async(req,res)=>{
     try{
     
         const { username,email,password,role}=req.body;
+        console.log('Request data:', { username, email, password, role });
+
         if( !username ||!password||!role){
-            res.status(500).send({
+          return res.status(500).send({
                 success:false,
                 message:'Error to get the accurate data',
             })
         }
-        const Existing=await Usermodel.findOne({email});
-        if(Existing){
-            res.status(500).send({
-                success:false,
-                message:'User is Already registered',
-            })
-        }
-        const user= await Usermodel.create({ username,email,password,role})
-        res.status(201).send({
+        const user = new Usermodel({ username, email, password, role });
+        await user.save();
+        console.log('User registered successfully:', user);
+    
+       return res.status(201).send({
             success:true,
             message:'user`s Registeration successfull...............',
-            user
+            user,
         })
     
       }
       catch(err){
        console.log(err);
-       res.status(500).send({
+        return res.status(500).send({
         success:false,
         message:'error in register API'
        })
@@ -41,6 +39,7 @@ const User_register=async(req,res)=>{
 const User_login=async(req,res)=>{
     try{
         const{email,password}=req.body;
+        console.log("request",{email,password})
         if(!email||!password){
             return res.status(500).send({
                 success:false,
@@ -79,10 +78,19 @@ const User_login=async(req,res)=>{
     //         })
     //     }
         const token=await jwt.sign({id:user._id},JWT_KEY,{expiresIn:'7d'})
+        // if(user.role=="user"){
+        //     return res.redirect('/')
+        // }
+        // else{
+        //     return res.send("admin not found")
+        // }
         return  res.status(200).send({
             success:true,
             message:"login successfully........",
+            user,
             token,
+            role:user.role,
+             userName:user.username,      // Include role in the response
             
         })
     
